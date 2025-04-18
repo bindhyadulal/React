@@ -1,12 +1,12 @@
 import React from "react";
 import { useForm,Controller } from "react-hook-form";
 
-export default function ExpenseForm(){
+export default function ExpenseForm({onAddExpense}){
     const{control,handleSubmit,formState:{errors},reset,}=useForm();
 
 
     const onSubmit=(data)=>{
-        console.log("Form Data:",data);
+        onAddExpense(data);   //for passing new expense to parent
         reset();
     };
 
