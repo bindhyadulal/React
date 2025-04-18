@@ -1,8 +1,8 @@
-import ExpenseForm from './components/expenseForm';
-import './App.css';
+import React  from 'react';
+import ExpenseForm from './Expenseform';
 function App(){
   return(
-    <div className="App">
+    <div>
       <h1>Expense Tracker</h1>
       <ExpenseForm/>
     </div>
