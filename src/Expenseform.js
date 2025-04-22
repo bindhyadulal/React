@@ -1,17 +1,29 @@
 import React from "react";
 import { useForm,Controller } from "react-hook-form";
 
-export default function ExpenseForm({onAddExpense}){
-    const{control,handleSubmit,formState:{errors},reset,}=useForm();
+function ExpenseForm({onAddExpense}){
+    //for not selecting future dates
+    const today=new Date().toISOString().split("T")[0];    
 
 
     const onSubmit=(data)=>{
         onAddExpense(data);   //for passing new expense to parent
-        reset();
+        reset({expenseName:"",amount:"", date:today});
     };
 
-    //for not selecting future dates
-    const today=new Date().toISOString().split("T")[0];
+    const{
+        control,
+        handleSubmit,
+        reset,
+        formState:{errors},
+    }=useForm({
+        defaultValues:{
+            expenseName:"",
+            amount:"",
+            date:today,
+        },
+    });
+   
 return(
     <form onSubmit={handleSubmit(onSubmit)}>
         {/*ExpenseName*/}
@@ -58,3 +70,5 @@ return(
     </form>
 )
 }
+
+export default ExpenseForm;
