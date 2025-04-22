@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm,Controller } from "react-hook-form";
-
+import './App.css';
 function ExpenseForm({onAddExpense}){
     //for not selecting future dates
     const today=new Date().toISOString().split("T")[0];    
@@ -25,48 +25,49 @@ function ExpenseForm({onAddExpense}){
     });
    
 return(
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="form-group">
         {/*ExpenseName*/}
-        <div>
-            <label>Expense Name:</label>
+        <div className="form-group">
+            <label className="form-label">Expense Name:</label>
             <Controller
                 name="expenseName"
                 control={control}
                 rules={{required:"Name is required"}}
                 render={({field})=>(
-                    <input type="text" {...field}/>
+                    <input type="text" {...field} className="form-input" placeholder="Enter expense name"/>
                 )}
                 />
-                {errors.expenseName && <p>{errors.expenseName.message}</p>}
+                {errors.expenseName && <span className="error-message">{errors.expenseName.message}</span>}
         </div>
         {/*Amount*/}
-        <div>
-            <label>Amount</label>
+        <div className="form-group">
+            <label className="label
+            ">Amount</label>
             <Controller
                 name="amount"
                 control={control}
                 rules={{required:"Amount is required", validate:(value)=>parseFloat(value)>0 || "Amount must be positive",}}
                 render={({field})=>(
-                    <input type="number" step="0.01" {...field}/>
+                    <input type="number" step="0.01" {...field} className="form-input" placeholder="0.00"/>
                 )}
                 />
-                {errors.amount && (<p>{errors.amount.message}</p>)}
+                {errors.amount && (<span className="error-message">{errors.amount.message}</span>)}
         </div>
         {/*Date*/}
-        <div>
-            <label>Date:</label>
+        <div className="form-group">
+            <label className="label">Date:</label>
             <Controller
                 name="date"
                 control={control}
                 rules={{required:"Date is required"}}
                 render={({field})=>(
-                    <input type="date" max={today} {...field}/>
+                    <input type="date" max={today} {...field} className="form-input"/>
                 )}
                 />
-                {errors.date && (<p>{errors.date.message}</p>)}
+                {errors.date && (<span className="error-message">{errors.date.message}</span>)}
         </div>
         {/* Submit Button*/}
-        <button type="submit">Add Expense</button>
+        <button type="submit" className="submit-button">Add Expense</button>
     </form>
 )
 }

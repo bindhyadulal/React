@@ -1,5 +1,7 @@
 import React, { useState,useEffect }  from 'react';
 import ExpenseForm from './Expenseform';
+import './App.css';
+
 function App(){
   const [expenses,setExpenses]=useState([]);
   const today=new Date().toISOString().split("T")[0];
@@ -23,46 +25,62 @@ function App(){
   );
 
   return(
-    <div>
-      <h1>Expense Tracker</h1>
-      <ExpenseForm onAddExpense={handleAddExpense}/>
-
+    <div className="container">
+      <header className="app-header">
+        <h1>Expense Tracker</h1>
+        <p>Track and manage your expense</p>
+      </header>
+      <div className="card">
+          <ExpenseForm onAddExpense={handleAddExpense}/>
+      </div>
       {/*Date filters*/}
-      <label>Start Date</label>
-      <input 
-        type="date" 
-        value={startDate} 
-        onChange={(e)=>setStartDate(e.target.value)}/>
-
-      <label>End Date</label>
-      <input type="date" value={endDate} onChange={(e)=>setendDate(e.target.value)} max={today}/>
-      <h2>Expense List:</h2>
-      {filteredExpenses.length===0?(
-        <p>No expenses to show.</p>
-      ):(
-        <table border="1" cellPadding="5" style={{marginTop:"1rem"}}>
-          <thead>
-            <tr>
-              <th>Expense Name</th>
-              <th>Amount</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredExpenses.map((e,i)=>(
-              <tr key={i}>
-                <td>{e.expenseName}</td>
-                <td>${parseFloat(e.amount).toFixed(2)}</td>
-                <td>{e.date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        
+      <div className="date-imputs">
+        <div className="form-group">
+            <label className="form-label">Start Date</label>
+            <input 
+              type="date" 
+              value={startDate} 
+              onChange={(e)=>setStartDate(e.target.value)} className="form-input"/>
+        </div>
+        <div className="form-group">
+          <label className="form-label">End Date</label>
+          <input type="date" value={endDate} onChange={(e)=>setendDate(e.target.value)} max={today} className="form-input"/>
+        </div>
+      </div>
+      <div className="card">
+        <h2 className="sub-header">Expense List:</h2>
+        {filteredExpenses.length===0?(
+          <div className="empty-state">
+            No expenses found.
+            </div>
+        ):(
+          <>
+            <table className="expense-table">
+              <thead>
+                <tr >
+                  <th>Expense Name</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredExpenses.map((e,i)=>(
+                  <tr key={i} >
+                    <td>{e.expenseName}</td>
+                    <td>${parseFloat(e.amount).toFixed(2)}</td>
+                    <td >{e.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="total-display">
+        Total:<span className="total-amount">${totalAmount.toFixed(2)}</span>
+      </div>
+      </>
       )}
-      {/*Total Displaying*/}
-      Total:${totalAmount.toFixed(2)}
+     
     </div>
+  </div>
   );
 }
 export default App;
