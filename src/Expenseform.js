@@ -1,14 +1,13 @@
 import React from "react";
 import { useForm,Controller } from "react-hook-form";
 import './App.css';
-function ExpenseForm({onAddExpense}){
+function ExpenseForm({onAddExpense,categories}){
     //for not selecting future dates
     const today=new Date().toISOString().split("T")[0];    
-
-
+    
     const onSubmit=(data)=>{
         onAddExpense(data);   //for passing new expense to parent
-        reset({expenseName:"",amount:"", date:today});
+        reset();
     };
 
     const{
@@ -20,7 +19,8 @@ function ExpenseForm({onAddExpense}){
         defaultValues:{
             expenseName:"",
             amount:"",
-            date:today,
+            date:"",
+            category:"",
         },
     });
    
@@ -41,8 +41,7 @@ return(
         </div>
         {/*Amount*/}
         <div className="form-group">
-            <label className="label
-            ">Amount</label>
+            <label className="form-label">Amount</label>
             <Controller
                 name="amount"
                 control={control}
@@ -65,6 +64,23 @@ return(
                 )}
                 />
                 {errors.date && (<span className="error-message">{errors.date.message}</span>)}
+        </div>
+        <div className="form-group">
+            <label className="form-label">Category</label>
+            <Controller
+                name="category"
+                control={control}
+                rules={{required:"Category is required"}}
+                render={({field})=>(
+                    <select {...field} className="form-input">
+                        <option value="">Select a category</option>
+                        {categories.map((cat)=>(
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                )}
+            />
+            {errors.category && (<span className="error-message">{errors.category.message}</span>)}
         </div>
         {/* Submit Button*/}
         <button type="submit" className="submit-button">Add Expense</button>
